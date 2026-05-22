@@ -48,9 +48,8 @@ exports.handler = async (event) => {
         billData.recipient.address = sanitizeText(billData.recipient.address);
       }
 
-      if (billData?.detail) {
-        billData.detail = sanitizeText(billData.detail);
-      }
+      billData.detail = sanitizeText(billData.services?.[0]?.description ?? '');
+      billData.amount = Number(billData.services?.[0]?.value ?? 0);
 
       billData.paymentMethod = 'transferencia';
       billData.billType = 'afecta';
