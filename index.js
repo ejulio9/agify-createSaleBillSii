@@ -130,7 +130,7 @@ async function documentById(documentId) {
   );
   return rows[0] ?? null;
 }
-
+/*
 if (require.main === module) exports.handler({
     "Records": [
         {
@@ -151,3 +151,4 @@ if (require.main === module) exports.handler({
         }
     ]
 }).then(console.log).catch(console.error);
+*/
