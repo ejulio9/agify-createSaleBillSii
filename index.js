@@ -7,7 +7,7 @@ for (const key of REQUIRED_ENV) {
   if (!process.env[key]) throw new Error(`Missing env var: ${key}`);
 }
 
-const lambda = new LambdaClient({ region: process.env.AWS_REGION });
+const lambda = new LambdaClient({ region: process.env.VAR_AWS_REGION });
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -98,7 +98,6 @@ exports.handler = async (event) => {
 };
 
 async function invokeSendEmailLambda(payload) {
-  return payload;
   const functionName = 'notifyDocumentSii';
 
   const response = await lambda.send(new InvokeCommand({
