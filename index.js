@@ -44,19 +44,21 @@ exports.handler = async (event) => {
     let emailPayload = null;
 
     try {
-      if (billData?.recipient?.address) {
-        billData.recipient.address = sanitizeText(billData.recipient.address);
-      }
-
-      billData.detail = sanitizeText(billData.services?.[0]?.description ?? '');
-      billData.amount = Number(billData.services?.[0]?.value ?? 0);
-
-      billData.paymentMethod = 'transferencia';
-      billData.billType = 'afecta';
+      const payload = {
+        amount: Number(billData.services?.[0]?.value ?? 0),
+        paymentMethod: 'transferencia',
+        billType: 'afecta',
+        recipient: {
+          rut: `${billData.recipient.rut}-${billData.recipient.dv}`,
+          name: billData.recipient.name,
+          address: sanitizeText(billData.recipient.address),
+        },
+        detail: sanitizeText(billData.services?.[0]?.description ?? ''),
+      };
 
       const response = await axios.post(
         'https://api-sii.agify.cl/api/sii/emit-sale-bill',
-        billData,
+        payload,
         {
           timeout: 40000,
           headers: {
